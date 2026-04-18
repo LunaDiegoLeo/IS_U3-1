@@ -21,4 +21,27 @@ function completeTask(tasks, id) {
     task.completed = true;
     return task;
 }
-module.exports = { addTask, completeTask };
+
+
+function editTask(tasks, id, title, description) {
+    const task = tasks.find(t => t.id == id);
+    if (!task) throw new Error('Tarea no encontrada');
+
+    if (!title || !description) {
+        throw new Error('Datos inválidos');
+    }
+
+    task.title = title;
+    task.description = description;
+
+    return task;
+}
+
+module.exports = {
+    addTask,
+    completeTask,
+    editTask,
+    deleteTask,
+    filterTasks,
+    setPriority
+};

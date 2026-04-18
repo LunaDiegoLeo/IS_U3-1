@@ -49,3 +49,25 @@ test('Falla si no existe tarea al completar', () => {
 });
 
 
+// ===============================
+// --H2 Editar tarea
+// ===============================
+test('Edita tarea correctamente', () => {
+    const tasks = [];
+    const task = addTask(tasks, 'Viejo', 'Desc');
+
+    const updated = editTask(tasks, task.id, 'Nuevo', 'Nueva desc');
+
+    expect(updated.title).toBe('Nuevo');
+    expect(updated.description).toBe('Nueva desc');
+});
+
+test('Falla al editar si no existe', () => {
+    const tasks = [];
+
+    expect(() => {
+        editTask(tasks, 999, 'x', 'y');
+    }).toThrow();
+});
+
+

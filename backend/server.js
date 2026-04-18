@@ -1,8 +1,17 @@
 const express = require('express');
-const { addTask } = require('./task');
+const {
+    addTask,
+    completeTask,
+    editTask,
+    deleteTask,
+    filterTasks,
+    setPriority
+} = require('./task');
 
 const app = express();
 app.use(express.json());
+
+let tasks = [];
 
 let tasks = [];
 
@@ -22,15 +31,18 @@ app.get('/tasks', (req, res) => {
     res.json(tasks);
 });
 
-//obtener tareas
-app.put('/tasks/:id/complete', (req, res) => {
-    try {
-        res.json(completeTask(tasks, req.params.id));
-    } catch (e) {
-        res.status(404).json({ error: e.message });
-    }
-});
-
 app.listen(3000, () => {
     console.log('Servidor corriendo en http://localhost:3000');
+});
+
+// ===============================
+// Editar tarea
+// ===============================
+app.put('/tasks/:id', (req, res) => {
+    try {
+        const { title, description } = req.body;
+        res.json(editTask(tasks, req.params.id, title, description));
+    } catch (e) {
+        res.status(400).json({ error: e.message });
+    }
 });

@@ -203,6 +203,38 @@
             loadTasks();
         }
 
+        // ===============================
+        // --H2 Editar
+        // ===============================
+        async function edit(id) {
+            const title = prompt('Nuevo título');
+            const description = prompt('Nueva descripción');
+
+            await fetch(`${API}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, description })
+            });
+
+            loadTasks();
+        }
+
+        // ===============================
+        // --H2 Editar
+        // ===============================
+        async function edit(id) {
+            const title = prompt('Nuevo título');
+            const description = prompt('Nueva descripción');
+
+            await fetch(`${API}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, description })
+            });
+
+            loadTasks();
+        }
+
         loadTasks();
     </script>
 
