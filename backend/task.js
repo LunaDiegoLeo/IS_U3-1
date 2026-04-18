@@ -45,6 +45,11 @@ function deleteTask(tasks, id) {
     return tasks.splice(index, 1)[0];
 }
 
+
+function filterTasks(tasks, completed) {
+    return tasks.filter(t => t.completed == completed);
+}
+
 module.exports = {
     addTask,
     completeTask,

@@ -243,6 +243,17 @@
             loadTasks();
         }
 
+        async function filterTasks(status) {
+            if (status === 'all') {
+                loadTasks();
+                return;
+            }
+
+            const res = await fetch(`${API}/filter/${status}`);
+            const data = await res.json();
+            render(data);
+        }
+
         loadTasks();
     </script>
 

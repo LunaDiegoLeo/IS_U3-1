@@ -82,3 +82,20 @@ test('Elimina tarea correctamente', () => {
 
     expect(tasks.length).toBe(0);
 });
+
+// ===============================
+// --H2 Filtrado
+// ===============================
+test('Filtra tareas completadas', () => {
+    const tasks = [];
+
+    const t1 = addTask(tasks, 'A', 'a');
+    const t2 = addTask(tasks, 'B', 'b');
+
+    completeTask(tasks, t1.id);
+
+    const completed = filterTasks(tasks, true);
+
+    expect(completed.length).toBe(1);
+    expect(completed[0].id).toBe(t1.id);
+});

@@ -57,3 +57,11 @@ app.delete('/tasks/:id', (req, res) => {
         res.status(404).json({ error: e.message });
     }
 });
+
+// ===============================
+// Filtrar
+// ===============================
+app.get('/tasks/filter/:status', (req, res) => {
+    const status = req.params.status === 'true';
+    res.json(filterTasks(tasks, status));
+});
