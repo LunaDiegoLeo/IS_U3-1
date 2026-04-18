@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const {
     addTask,
     completeTask,
@@ -9,9 +10,10 @@ const {
 } = require('./task');
 
 const app = express();
+app.use(cors({
+    origin: 'http://127.0.0.1:5500'
+}));
 app.use(express.json());
-
-let tasks = [];
 
 let tasks = [];
 
@@ -29,6 +31,15 @@ app.post('/tasks', (req, res) => {
 // Obtener tareas
 app.get('/tasks', (req, res) => {
     res.json(tasks);
+});
+
+app.put('/tasks/:id/complete', (req, res) => {
+    try {
+        const task = completeTask(tasks, req.params.id);
+        res.json(task);
+    } catch (e) {
+        res.status(404).json({ error: e.message });
+    }
 });
 
 
