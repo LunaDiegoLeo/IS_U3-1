@@ -1,5 +1,16 @@
-const { addTask } = require('../backend/task');
+const {
+    addTask,
+    completeTask,
+    editTask,
+    deleteTask,
+    filterTasks,
+    setPriority
+} = require('../backend/task');
 
+
+// ===============================
+// --H2 Agregar tarea
+// ===============================
 test('Agrega tarea correctamente', () => {
     const tasks = [];
     const result = addTask(tasks, 'Tarea 1', 'Descripción');
@@ -15,3 +26,26 @@ test('Falla si título está vacío', () => {
         addTask(tasks, '', 'desc');
     }).toThrow();
 });
+
+
+// ===============================
+// --H2 Completar tarea
+// ===============================
+test('Marca tarea como completada', () => {
+    const tasks = [];
+    const task = addTask(tasks, 'Test', 'Desc');
+
+    const result = completeTask(tasks, task.id);
+
+    expect(result.completed).toBe(true);
+});
+
+test('Falla si no existe tarea al completar', () => {
+    const tasks = [];
+
+    expect(() => {
+        completeTask(tasks, 123);
+    }).toThrow();
+});
+
+

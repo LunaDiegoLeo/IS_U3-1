@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Task Manager</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .container {
+            width: 600px;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Inputs */
+        input {
+            width: 48%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #007bff;
+        }
+
+        /* Botones */
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 5px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .add-btn {
+            background: #007bff;
+            color: white;
+        }
+
+        /* Lista */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #fafafa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.2s;
+        }
+
+        li:hover {
+            background: #f1f1f1;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        /* Prioridades */
+        .low {
+            color: green;
+        }
+
+        .medium {
+            color: orange;
+        }
+
+        .high {
+            color: red;
+        }
+
+        /* Filtro */
+        select {
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Gestor de Tareas</h1>
+
+        <input id="title" placeholder="Título">
+        <input id="desc" placeholder="Descripción">
+        <button class="add-btn" onclick="createTask()">Agregar</button>
+
+        <br><br>
+
+        <select onchange="filterTasks(this.value)">
+            <option value="all">Todas</option>
+            <option value="true">Completadas</option>
+            <option value="false">Pendientes</option>
+        </select>
+
+        <ul id="list"></ul>
+
+    </div>
+
+    <script>
+        const API = 'http://localhost:3000/tasks';
+
+        // ===============================
+        // --H2 Obtener tareas
+        // ===============================
+        async function loadTasks() {
+            const res = await fetch(API);
+            const data = await res.json();
+            render(data);
+        }
+
+        // ===============================
+        // --H2 Render
+        // ===============================
+        function render(tasks) {
+            const list = document.getElementById('list');
+            list.innerHTML = '';
+
+            tasks.forEach(t => {
+                const li = document.createElement('li');
+
+                const priorityClass = t.priority || '';
+
+                li.innerHTML = `
+            <div>
+                <strong class="${priorityClass}">
+                    ${t.title}
+                </strong>
+                <br>
+                <small class="${t.completed ? 'completed' : ''}">
+                    ${t.description}
+                </small>
+            </div>
+
+            <div>
+                <button onclick="complete(${t.id})">✔</button>
+                <button onclick="edit(${t.id})">✏</button>
+                <button onclick="remove(${t.id})">🗑</button>
+                <button onclick="priority(${t.id})">⭐</button>
+            </div>
+        `;
+
+                list.appendChild(li);
+            });
+        }
+
+        // ===============================
+        // --H2 Crear
+        // ===============================
+        async function createTask() {
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('desc').value;
+
+            await fetch(API, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, description })
+            });
+
+            loadTasks();
+        }
+
+        // ===============================
+        // --H2 Completar
+        // ===============================
+        async function complete(id) {
+            await fetch(`${API}/${id}/complete`, { method: 'PUT' });
+            loadTasks();
+        }
+
+        loadTasks();
+    </script>
+
+</body>
+
+</html>

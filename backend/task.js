@@ -14,5 +14,11 @@ function addTask(tasks, title, description) {
     tasks.push(newTask);
     return newTask;
 }
+function completeTask(tasks, id) {
+    const task = tasks.find(t => t.id == id);
+    if (!task) throw new Error('Tarea no encontrada');
 
-module.exports = { addTask };
+    task.completed = true;
+    return task;
+}
+module.exports = { addTask, completeTask };
