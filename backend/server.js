@@ -46,3 +46,14 @@ app.put('/tasks/:id', (req, res) => {
         res.status(400).json({ error: e.message });
     }
 });
+
+// ===============================
+// Eliminar tarea
+// ===============================
+app.delete('/tasks/:id', (req, res) => {
+    try {
+        res.json(deleteTask(tasks, req.params.id));
+    } catch (e) {
+        res.status(404).json({ error: e.message });
+    }
+});

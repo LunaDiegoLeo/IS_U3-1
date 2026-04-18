@@ -235,6 +235,14 @@
             loadTasks();
         }
 
+        // ===============================
+        // --H2 Eliminar
+        // ===============================
+        async function remove(id) {
+            await fetch(`${API}/${id}`, { method: 'DELETE' });
+            loadTasks();
+        }
+
         loadTasks();
     </script>
 

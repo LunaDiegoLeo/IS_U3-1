@@ -37,6 +37,14 @@ function editTask(tasks, id, title, description) {
     return task;
 }
 
+
+function deleteTask(tasks, id) {
+    const index = tasks.findIndex(t => t.id == id);
+    if (index === -1) throw new Error('Tarea no encontrada');
+
+    return tasks.splice(index, 1)[0];
+}
+
 module.exports = {
     addTask,
     completeTask,

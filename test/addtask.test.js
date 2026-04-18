@@ -71,3 +71,14 @@ test('Falla al editar si no existe', () => {
 });
 
 
+// ===============================
+// --H2 Eliminar tarea
+// ===============================
+test('Elimina tarea correctamente', () => {
+    const tasks = [];
+    const task = addTask(tasks, 'Test', 'Desc');
+
+    deleteTask(tasks, task.id);
+
+    expect(tasks.length).toBe(0);
+});
