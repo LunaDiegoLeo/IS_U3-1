@@ -50,6 +50,14 @@ function filterTasks(tasks, completed) {
     return tasks.filter(t => t.completed == completed);
 }
 
+function setPriority(tasks, id, priority) {
+    const task = tasks.find(t => t.id == id);
+    if (!task) throw new Error('Tarea no encontrada');
+
+    task.priority = priority; // low, medium, high
+    return task;
+}
+
 module.exports = {
     addTask,
     completeTask,

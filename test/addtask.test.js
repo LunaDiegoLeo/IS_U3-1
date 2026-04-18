@@ -99,3 +99,15 @@ test('Filtra tareas completadas', () => {
     expect(completed.length).toBe(1);
     expect(completed[0].id).toBe(t1.id);
 });
+
+// ===============================
+// --H2 Prioridad
+// ===============================
+test('Asigna prioridad correctamente', () => {
+    const tasks = [];
+    const task = addTask(tasks, 'Test', 'Desc');
+
+    const result = setPriority(tasks, task.id, 'high');
+
+    expect(result.priority).toBe('high');
+});

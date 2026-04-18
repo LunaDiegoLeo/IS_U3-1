@@ -220,22 +220,6 @@
         }
 
         // ===============================
-        // --H2 Editar
-        // ===============================
-        async function edit(id) {
-            const title = prompt('Nuevo título');
-            const description = prompt('Nueva descripción');
-
-            await fetch(`${API}/${id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title, description })
-            });
-
-            loadTasks();
-        }
-
-        // ===============================
         // --H2 Eliminar
         // ===============================
         async function remove(id) {
@@ -243,6 +227,9 @@
             loadTasks();
         }
 
+        // ===============================
+        // --H2 Filtrar
+        // ===============================
         async function filterTasks(status) {
             if (status === 'all') {
                 loadTasks();
@@ -252,6 +239,21 @@
             const res = await fetch(`${API}/filter/${status}`);
             const data = await res.json();
             render(data);
+        }
+
+        // ===============================
+        // --H2 Prioridad
+        // ===============================
+        async function priority(id) {
+            const p = prompt('Prioridad: low, medium, high');
+
+            await fetch(`${API}/${id}/priority`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ priority: p })
+            });
+
+            loadTasks();
         }
 
         loadTasks();

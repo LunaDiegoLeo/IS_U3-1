@@ -31,9 +31,6 @@ app.get('/tasks', (req, res) => {
     res.json(tasks);
 });
 
-app.listen(3000, () => {
-    console.log('Servidor corriendo en http://localhost:3000');
-});
 
 // ===============================
 // Editar tarea
@@ -64,4 +61,17 @@ app.delete('/tasks/:id', (req, res) => {
 app.get('/tasks/filter/:status', (req, res) => {
     const status = req.params.status === 'true';
     res.json(filterTasks(tasks, status));
+});
+
+app.put('/tasks/:id/priority', (req, res) => {
+    try {
+        const { priority } = req.body;
+        res.json(setPriority(tasks, req.params.id, priority));
+    } catch (e) {
+        res.status(400).json({ error: e.message });
+    }
+});
+
+app.listen(3000, () => {
+    console.log('Servidor corriendo en http://localhost:3000');
 });
