@@ -11,7 +11,7 @@ const {
 
 const app = express();
 app.use(cors({
-    origin: 'http://127.0.0.1:5500'
+    origin: 'hhttps://is-u3-1.onrender.com'
 }));
 app.use(express.json());
 
